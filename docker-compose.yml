@@ -12,6 +12,10 @@ services:
   frontend-react-js:
     environment:
       REACT_APP_BACKEND_URL: "http://localhost:4567"
+      REACT_APP_AWS_PROJECT_REGION: ${REACT_APP_AWS_PROJECT_REGION}
+      REACT_APP_AWS_COGNITO_REGION: ${REACT_APP_AWS_COGNITO_REGION}
+      REACT_APP_AWS_USER_POOLS_ID: ${REACT_APP_AWS_USER_POOLS_ID}
+      REACT_APP_CLIENT_ID: ${REACT_APP_CLIENT_ID}
     build: 
       context: ./frontend-react-js
       dockerfile: Dockerfile
