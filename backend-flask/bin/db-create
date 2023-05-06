@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# we connect to postgres and execute a command
+psql -Upostgres --host localhost -c "CREATE DATABASE twitter;"

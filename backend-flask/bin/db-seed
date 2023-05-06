@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# bash script for production
+if [ "$1" = "prod" ]; then
+  echo "Running in production mode"
+  URL=$PROD_CONNECTION_URL
+else
+  echo "Running in development mode"
+  URL="postgresql://postgres:password@localhost:5432/twitter"
+fi
+
+NO_DB_CONNECTION_URL=$(sed 's/\/cruddur//g' <<<"$URL")
+
+# must be in backend-flask directory to execute
+psql $NO_DB_CONNECTION_URL twitter < db/seed.sql

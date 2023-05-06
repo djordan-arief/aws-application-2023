@@ -56,6 +56,18 @@ const onsubmit = async (event) => {
     return false;
 };
 
+# codes for the sign out
+import { Auth } from 'aws-amplify';
+
+const signOut = async () => {
+    try {
+        await Auth.signOut({ global: true });
+        window.location.href = "/"
+    } catch (error) {
+        console.log('error signing out: ', error);
+    }
+  }
+
 
 # create a user in the aws cognito user pool 
 go to the aws website and go to the aws cognito management console

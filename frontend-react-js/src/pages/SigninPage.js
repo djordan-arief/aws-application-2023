@@ -58,7 +58,7 @@ export default function SigninPage() {
           className='signin_form'
           onSubmit={onsubmit}
         >
-          <h2>Sign into your Cruddur account</h2>
+          <h2>Sign into your Twitter account</h2>
           <div className='fields'>
             <div className='field text_field username'>
               <label>Email</label>
