@@ -3,6 +3,12 @@ from flask import request
 from flask_cors import CORS, cross_origin
 import os
 
+from lib.cognito_token_verification import (
+  CognitoTokenVerification,
+  extract_access_token,
+  TokenVerifyError
+)
+
 from services.home_activities import *
 from services.user_activities import *
 from services.create_activity import *
@@ -15,14 +21,21 @@ from services.show_activity import *
 from services.notifications_activities import *
 
 app = Flask(__name__)
-frontend = os.getenv('FRONTEND_URL')
-backend = os.getenv('BACKEND_URL')
+frontend = os.environ.get('FRONTEND_URL')
+backend = os.environ.get('BACKEND_URL')
 origins = [frontend, backend]
+
+cognito_token_verification = CognitoTokenVerification(
+   user_pool_id=os.environ.get('AWS_COGNITO_USER_POOL_ID'),
+   user_pool_client_id = os.environ.get('AWS_COGNITO_USER_POOL_CLIENT_ID'),
+   region=os.environ.get('AWS_DEFAULT_REGION')
+)
+
 cors = CORS(
   app, 
   resources={r"/api/*": {"origins": origins}},
-  expose_headers="location,link",
-  allow_headers="content-type,if-modified-since",
+  headers=['Content-Type', 'Authorization'], 
+  expose_headers='Authorization',
   methods="OPTIONS,GET,HEAD,POST"
 )
 
@@ -63,7 +76,15 @@ def data_create_message():
 
 @app.route("/api/activities/home", methods=['GET'])
 def data_home():
-  data = HomeActivities.run()
+  access_token = extract_access_token(request.headers)
+  try:
+    # authenticated request
+    claims = cognito_token_verification.verify(access_token)
+    data = HomeActivities.run(cognito_user_id=claims['username'])
+  except TokenVerifyError as e:
+    # unauthenticated request
+    _ = request.data
+    data = HomeActivities.run()
   return data, 200
 
 @app.route("/api/activities/notifications", methods=['GET'])

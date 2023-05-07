@@ -81,7 +81,7 @@ postgresql://<your-db-username>:<your-db-password>@<your-rds-instance-endpoint>:
 # to connect to your rds instance using the connection url
 psql postgresql://<your-db-username>:<your-db-password>@<your-rds-instance-endpoint>:<your-db-port>/<your-db-name>
 
-Note: you must add your ip address to your security group
+Note: you must add your ip address to your security group as an inbound rule
 
 # bash scripting
 create a bin folder in the backend-flask directory
