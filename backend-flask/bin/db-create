@@ -1,4 +1,4 @@
 #!/bin/bash
 
-# we connect to postgres and execute a command
-psql -Upostgres --host localhost -c "CREATE DATABASE twitter;"
+NO_DB_CONNECTION_URL=$(sed 's/\/twitter//g' <<<"$CONNECTION_URL")
+psql $NO_DB_CONNECTION_URL -c "CREATE DATABASE twitter;"

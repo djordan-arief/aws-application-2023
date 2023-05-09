@@ -1,3 +1,4 @@
 #!/bin/bash
 
-psql -Upostgres --host localhost -c "DROP DATABASE twitter;"
+NO_DB_CONNECTION_URL=$(sed 's/\/twitter//g' <<<"$CONNECTION_URL")
+psql $NO_DB_CONNECTION_URL -c "DROP database twitter;"

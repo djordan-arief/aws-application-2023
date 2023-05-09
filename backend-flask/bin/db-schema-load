@@ -1,16 +1,14 @@
 #!/bin/bash
 
-# bash script for production
+#  bash script for production
 if [ "$1" = "prod" ]; then
   echo "Running in production mode"
-  URL=$PROD_CONNECTION_URL
+  URL=$RDS_CONNECTION_URL
 else
   echo "Running in development mode"
   URL=$CONNECTION_URL
 fi
 
 
-NO_DB_CONNECTION_URL=$(sed 's/\/cruddur//g' <<<"$URL")
+psql $URL twitter < db/schema.sql
 
-
-psql $NO_DB_CONNECTION_URL twitter < db/schema.sql
