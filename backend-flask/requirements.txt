@@ -2,3 +2,5 @@ flask
 flask-cors
 
 Flask-AWSCognito
+psycopg[binary]
+psycopg[pool]

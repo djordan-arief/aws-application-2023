@@ -200,12 +200,11 @@ else
 fi
 psql $URL twitter < db/seed.sql
 
-
-
-# install postgres client
+# install postgres drive
 add these to requirements.txt:
 - psycopg[binary]
 - psycopg[pool]
 
 pip install -r requirements.txt
 Note: if it does not work, upgrade your pip version
+

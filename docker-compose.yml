@@ -4,11 +4,11 @@ services:
     environment:
       FRONTEND_URL: "*"
       BACKEND_URL: "*"
-      CONNECTION_URL: ${CONNECTION_URL}
-      RDS_CONNECTION_URL: ${RDS_CONNECTION_URL}
-      AWS_COGNITO_USER_POOL_ID: ${AWS_COGNITO_USER_POOL_ID}
-      AWS_COGNITO_USER_POOL_CLIENT_ID: ${AWS_COGNITO_USER_POOL_CLIENT_ID}
-      AWS_DEFAULT_REGION:  ${AWS_DEFAULT_REGION}
+      CONNECTION_URL: ""
+      RDS_CONNECTION_URL: ""
+      AWS_COGNITO_USER_POOL_ID: ""
+      AWS_COGNITO_USER_POOL_CLIENT_ID: ""
+      AWS_DEFAULT_REGION:  ""
     build: ./backend-flask
     ports:
       - "4567:4567"
@@ -17,10 +17,10 @@ services:
   frontend-react-js:
     environment:
       REACT_APP_BACKEND_URL: "http://localhost:4567"
-      REACT_APP_AWS_PROJECT_REGION: ${REACT_APP_AWS_PROJECT_REGION}
-      REACT_APP_AWS_COGNITO_REGION: ${REACT_APP_AWS_COGNITO_REGION}
-      REACT_APP_AWS_USER_POOLS_ID: ${REACT_APP_AWS_USER_POOLS_ID}
-      REACT_APP_CLIENT_ID: ${REACT_APP_CLIENT_ID}
+      REACT_APP_AWS_PROJECT_REGION: ""
+      REACT_APP_AWS_COGNITO_REGION: ""
+      REACT_APP_AWS_USER_POOLS_ID: ""
+      REACT_APP_CLIENT_ID: ""
     build: 
       context: ./frontend-react-js
       dockerfile: Dockerfile
@@ -38,18 +38,18 @@ services:
       - '5432:5432'
     volumes: 
       - db:/var/lib/postgresql/data
-  dynamodb-local:
-    # https://stackoverflow.com/questions/67533058/persist-local-dynamodb-data-in-volumes-lack-permission-unable-to-open-databa
-    # We needed to add user:root to get this working.
-    user: root
-    command: "-jar DynamoDBLocal.jar -sharedDb -dbPath ./data"
-    image: "amazon/dynamodb-local:latest"
-    container_name: dynamodb-local
-    ports:
-      - "8000:8000"
-    volumes:
-      - "./docker/dynamodb:/home/dynamodblocal/data"
-    working_dir: /home/dynamodblocal
+  # dynamodb-local:
+  #   # https://stackoverflow.com/questions/67533058/persist-local-dynamodb-data-in-volumes-lack-permission-unable-to-open-databa
+  #   # We needed to add user:root to get this working.
+  #   user: root
+  #   command: "-jar DynamoDBLocal.jar -sharedDb -dbPath ./data"
+  #   image: "amazon/dynamodb-local:latest"
+  #   container_name: dynamodb-local
+  #   ports:
+  #     - "8000:8000"
+  #   volumes:
+  #     - "./docker/dynamodb:/home/dynamodblocal/data"
+  #   working_dir: /home/dynamodblocal
 
 networks: 
   internal-network:
