@@ -1,8 +1,7 @@
-from datetime import datetime, timedelta, timezone
-from lib.db import pool, query_wrap_object, query_wrap_array
+from lib.db import pool, query_wrap_array
 
 class HomeActivities:
-    def run():
+    def run(cognito_user_id=None):
       sql = query_wrap_array("""
       SELECT
         activities.uuid,
