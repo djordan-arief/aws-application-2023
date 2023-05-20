@@ -267,3 +267,5 @@ class HomeActivities:
 Note: modify the CONNECTION_URL env var localhost to the name of your postgres image
 
 # aws lambda user creation trigger
+lib/db.py
+service/create_activity.py
