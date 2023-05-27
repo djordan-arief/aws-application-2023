@@ -1,0 +1,21 @@
+#!/usr/bin/env python3 
+
+import boto3
+
+attrs = {
+  'endpoint_url': 'http://localhost:8000'
+}
+ddb = boto3.resource('dynamodb',**attrs)
+table_name = 'twitter-messages'
+
+# get the table
+table = ddb.Table(table_name)
+
+# scan the table
+response = table.scan()
+
+print(response) # returns an object
+
+items = response['Items']
+for item in items:
+  print(item)

@@ -1,0 +1,52 @@
+#!/usr/bin/env python3 
+
+import boto3
+import sys
+
+attrs = {
+    'endpoint_url': 'http://localhost:8000'
+}
+
+# for production use
+if len(sys.argv) == 2:
+  if "prod" in sys.argv[1]:
+    attrs = {}
+
+# create a client instance of dynamodb
+dynamodb = boto3.client('dynamodb', **attrs)
+table_name = 'twitter-messages'
+
+# use the Boto3 library to create a table in Amazon DynamoDB 
+response = dynamodb.create_table(
+  TableName=table_name, # specify the name of the table to create
+  AttributeDefinitions=[ # Defines the attributes (columns) of the table along with their data types.
+    {
+      'AttributeName': 'pk',
+      'AttributeType': 'S' # String type
+    },
+    {
+      'AttributeName': 'sk',
+      'AttributeType': 'S'
+    },
+  ],
+  KeySchema=[ #  Specifies the primary key structure for the table. 
+    {
+      'AttributeName': 'pk',
+      'KeyType': 'HASH'
+    },
+    {
+      'AttributeName': 'sk',
+      'KeyType': 'RANGE'
+    },
+  ],
+  #GlobalSecondaryIndexes=[
+
+  #],
+  BillingMode='PROVISIONED', # Specifies the billing mode for the table
+  ProvisionedThroughput={
+      'ReadCapacityUnits': 5,
+      'WriteCapacityUnits': 5
+  }
+)
+
+print(response) # returns an object
